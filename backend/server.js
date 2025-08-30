@@ -17,7 +17,6 @@ require('./config/passport');
 const app = express();
 app.use(express.json());
 
-// ✅ Configure CORS
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
@@ -26,7 +25,7 @@ app.use(cors({
 
 app.use(cookieParser());
 
-// ✅ Session middleware
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -41,7 +40,7 @@ connectDB();
 
 
 app.use('/api/auth', authRoutes);
-app.use('/api', businessRoutes);
+app.use('/api/business', businessRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/slots', slotRoutes);
 
@@ -83,8 +82,3 @@ app.listen(PORT, () => {
 });
 
 console.log("Registered Routes:");
-app._router.stack.forEach((r) => {
-    if (r.route && r.route.path) {
-        console.log(r.route.path);
-    }
-});

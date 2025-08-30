@@ -9,10 +9,9 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:5000/api/auth/google/callback", // Ensure this matches with Google Developer Console
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (profile, done) => {
       try {
-        console.log("Google profile:", profile);  // Log profile data for debugging
-
+        console.log("Google profile:", profile);  
         // Find if user already exists with the email
         let user = await User.findOne({ email: profile.emails[0].value });
         console.log("User found:", user);
@@ -44,13 +43,7 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
+
+
 
 
